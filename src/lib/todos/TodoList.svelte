@@ -19,6 +19,13 @@
         on:change={dispatch('todo-toggle',{ index })}
       />
       <span class="list__text" for={`todo-${index}`}>{todo.title}</span>
+      <span
+        class="list__remove-icon"
+        role="button"
+        tabindex="0"
+        on:keydown
+        on:click={dispatch('remove-todo', { index })}
+      />
     </label>
   {/each}
 </div>
@@ -28,24 +35,45 @@
 .listwpr {
   display: flex;
   flex-direction: column;
+  max-height: 220px;
+  overflow-y: scroll;
+  width: 100%;
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  padding: 2px;
+}
+.listwpr::-webkit-scrollbar {
+  display: none;
 }
 
 .list {
   display: flex;
+  padding: 5px 0 5px 0;
+  background-color: #66834b;
+  border-radius: 5px;;
 }
 
 .list[data-compleated="true"] {
   text-decoration: line-through;
-  color: grey;
+  color: #FAF1E4;
 }
 
 .list + .list {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .list__text {
   font-size: 15px;
   font-weight: bold;
+  flex-grow: 1;
+}
+
+.list__remove-icon {
+  background-image: url("../../assets/remove.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 24px;
+  margin: 0 5px 0 5px;
 }
 
 .list__icon {

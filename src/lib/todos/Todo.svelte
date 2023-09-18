@@ -1,7 +1,8 @@
 <script>
+  import { afterUpdate } from "svelte";
   import AddTodo from "./AddTodo.svelte";
   import TodoList from "./TodoList.svelte";
-  import { v4 as uuid } from "uuid"
+  import { v4 as uuid } from "uuid";
 
   let todos = [
     {
@@ -21,10 +22,15 @@
     }
   ];
 
+  let addTodoComponentRef = null;
+
+  let prevTodoLength = todos.length;
+
   function addTodo(customEvent) {
     if (customEvent.detail.value) {
       todos = [...todos, { id: uuid(), title: customEvent.detail.value, compleated: false}];
     }
+    addTodoComponentRef.clearInput();
   }
 
   function onComplete(customEvent) {
@@ -41,12 +47,42 @@
       ];
     }
   }
+
+  function onRemove(customEvent) {
+    const index = customEvent.detail.index;
+    if (customEvent.detail.index) {
+      todos = [
+        ...todos.slice(0, index),
+        ...todos.slice(index + 1)
+      ];
+    }
+  }
+
+  function scrollToAddedTodo(canScroll = false) {
+    const ele = document.querySelector('.listwpr');
+    const scrollHeight = ele.scrollHeight;
+
+    if (canScroll) {
+      ele.scrollTo(0, scrollHeight);
+    }
+  }
+
+  afterUpdate(() => {
+    if (todos.length > prevTodoLength) {
+      scrollToAddedTodo(true);
+      prevTodoLength = todos.length;
+    }
+  });
 </script>
 
 <!-- Markup starts  -->
 <div class="container">
-  <TodoList {todos} on:todo-toggle={onComplete} />
-  <AddTodo on:button-click={addTodo} />
+  <TodoList
+    {todos}
+    on:todo-toggle={onComplete}
+    on:remove-todo={onRemove}
+  />
+  <AddTodo bind:this={addTodoComponentRef} on:button-click={addTodo} />
 </div>
 <!-- Markup ends  -->
 

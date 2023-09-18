@@ -1,19 +1,37 @@
 <script>
   import { createEventDispatcher } from "svelte";
-  export let inputRef;
-
+  
+  let inputRef;
+  let inputText = '';
+  let isButtonDisabled = false;
   const dispatch = createEventDispatcher();
 
-  function onClick() {
-    dispatch('button-click', { value: inputRef.value || '' });
+  $: {
+    isButtonDisabled = inputText.trim().length === 0;
+    console.log('isButtonDisabled', isButtonDisabled);
+  }
+
+  export function clearInput() {
     inputRef.value = '';
   }
 </script>
 
 <!-- Markup code -->
 <div class="inputwpr">
-  <input type="text" bind:this={inputRef} />
-  <button type="button" on:click={onClick}>Add</button>
+  <input
+    type="text"
+    bind:this={inputRef}
+    bind:value={inputText}
+  />
+  <button
+    type="button"
+    disabled={isButtonDisabled}
+    on:click={
+      dispatch('button-click', { value: inputRef.value || '' })
+    }
+  >
+    Add
+  </button>
 </div>
 
 <style>
@@ -52,5 +70,9 @@
   }
   button:focus {
     outline: none;
+  }
+
+  button:disabled {
+    opacity: 0.6;
   }
 </style>
