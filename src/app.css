@@ -29,6 +29,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  box-sizing: content-box;
+  background-color: #CEDEBD;
 }
 
 h1 {
@@ -40,12 +42,12 @@ h1 {
   padding: 2em;
 }
 
-#app {
+/* #app {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
+} */
 
 button {
   border-radius: 8px;

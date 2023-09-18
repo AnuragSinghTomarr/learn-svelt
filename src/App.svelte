@@ -2,6 +2,8 @@
   import Button from "./lib/Button.svelte";
   import Counter from "./lib/Counter.svelte";
   import Notification from "./lib/Notification.svelte";
+  import Todo from "./lib/todos/Todo.svelte";
+  import "./app.css";
 
   const courseName = "Svelt";
   const courseDescription = "Svelt is a <strong>light weight</strong> compiled framework";
@@ -9,7 +11,8 @@
 
 <!-- Markup -->
 <section class="wrapper">
-  <Notification />
+  <Todo />
+  <!-- <Notification /> -->
   <!-- <h1>Welcome to {courseName} Class</h1>
   <p>{@html courseDescription}</p>
   <Counter initialCount={5} />
@@ -17,9 +20,6 @@
 </section>
 
 <style>
-  body {
-    box-sizing: content-box;
-  }
   .wrapper {
     /* color: cadetblue; */
     /* font-weight: bold; */
@@ -28,5 +28,6 @@
     align-items: center;
     flex-grow: 1;
     height: 100vh;
+    width: 100vw;
   }
 </style>
