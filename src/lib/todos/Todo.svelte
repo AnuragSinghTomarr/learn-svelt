@@ -3,6 +3,7 @@
   import AddTodo from "./AddTodo.svelte";
   import TodoList from "./TodoList.svelte";
   import { v4 as uuid } from "uuid";
+  import { produce } from "immer";
 
   let todos = [
     {
@@ -28,23 +29,20 @@
 
   function addTodo(customEvent) {
     if (customEvent.detail.value) {
-      todos = [...todos, { id: uuid(), title: customEvent.detail.value, compleated: false}];
+      todos = produce(todos, (draftState) => {
+        draftState.push({ id: uuid(), title: customEvent.detail.value, compleated: false});
+      });
     }
     addTodoComponentRef.clearInput();
   }
 
   function onComplete(customEvent) {
     const index = customEvent.detail.index;
-    const target = {
-      ...todos[index],
-      compleated: !todos[index].compleated,
-    };
-    if (customEvent.detail.index) {
-      todos = [
-        ...todos.slice(0, index),
-        target,
-        ...todos.slice(index + 1)
-      ];
+
+    if (index) {
+      todos = produce(todos, (draftState) => {
+        draftState[index].compleated = !draftState[index].compleated;
+      });
     }
   }
 
