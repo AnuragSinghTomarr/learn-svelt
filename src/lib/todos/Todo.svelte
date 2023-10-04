@@ -1,36 +1,26 @@
 <script>
-  import { afterUpdate } from "svelte";
+  import { afterUpdate, onMount } from "svelte";
   import AddTodo from "./AddTodo.svelte";
   import TodoList from "./TodoList.svelte";
   import { v4 as uuid } from "uuid";
   import { produce } from "immer";
+  import api from "../../utils/api";
 
-  let todos = [
-    {
-      id: uuid(),
-      title: 'Todo 1',
-      compleated: true,
-    },
-    {
-      id: uuid(),
-      title: 'Todo 2',
-      compleated: false,
-    },
-    {
-      id: uuid(),
-      title: 'Todo 3',
-      compleated: false,
-    }
-  ];
+  let todos = [];
 
   let addTodoComponentRef = null;
 
   let prevTodoLength = todos.length;
 
-  function addTodo(customEvent) {
+  async function addTodo(customEvent) {
     if (customEvent.detail.value) {
+      const response = await api("http://localhost:8080/todos", {
+        method: "POST",
+        body: JSON.stringify({ title: customEvent.detail.value, action: 'add' }),
+      });
       todos = produce(todos, (draftState) => {
-        draftState.push({ id: uuid(), title: customEvent.detail.value, compleated: false});
+        draftState.push(response.data[response.data.length - 1]);
+        // draftState.push({ id: uuid(), title: customEvent.detail.value, compleated: false});
       });
     }
     addTodoComponentRef.clearInput();
@@ -70,6 +60,13 @@
       scrollToAddedTodo(true);
       prevTodoLength = todos.length;
     }
+  });
+
+  onMount(async () => {
+    const response = await api("http://localhost:8080/todos");
+
+    todos = response.data && response.data.length > 0 ? response.data : [];
+    console.log('todos', response);
   });
 </script>
 
