@@ -36,13 +36,19 @@
     }
   }
 
-  function onRemove(customEvent) {
+  async function onRemove(customEvent) {
     const index = customEvent.detail.index;
     if (customEvent.detail.index) {
-      todos = [
-        ...todos.slice(0, index),
-        ...todos.slice(index + 1)
-      ];
+      const response = await api("http://localhost:8080/todos", {
+        method: "DELETE",
+        body: JSON.stringify({ id: customEvent.detail.id, action: 'delete' }),
+      });
+      if (response.status === 1) {
+        todos = [
+          ...todos.slice(0, index),
+          ...todos.slice(index + 1)
+        ];
+      }
     }
   }
 

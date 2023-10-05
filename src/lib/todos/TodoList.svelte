@@ -24,7 +24,7 @@
         role="button"
         tabindex="0"
         on:keydown
-        on:click={dispatch('remove-todo', { index })}
+        on:click={dispatch('remove-todo', { index, id: todo.id })}
       />
     </label>
   {/each}
@@ -36,6 +36,7 @@
   display: flex;
   flex-direction: column;
   max-height: 220px;
+  min-height: 150px;
   overflow-y: scroll;
   width: 100%;
   scroll-behavior: smooth;
