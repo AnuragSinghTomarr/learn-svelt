@@ -1,6 +1,7 @@
 <svelte:options immutable={true} />
 <script>
   import { createEventDispatcher } from "svelte";
+  import { flip } from "svelte/animate";
 
   export let todos = [];
 
@@ -10,7 +11,7 @@
 <!-- Markup code starts -->
 <div class="listwpr">
   {#each todos as todo, index (todo.id)}
-    <label class="list" data-compleated={todo.compleated}>
+    <label class="list" data-compleated={todo.compleated} animate:flip>
       <input
         class="list__icon"
         for={`todo-${index}`}

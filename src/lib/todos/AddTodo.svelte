@@ -13,6 +13,7 @@
 
   export function clearInput() {
     inputRef.value = '';
+    inputText = '';
     isButtonDisabled = true;
   }
 </script>

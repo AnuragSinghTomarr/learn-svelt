@@ -2,7 +2,6 @@
   import { afterUpdate, onMount } from "svelte";
   import AddTodo from "./AddTodo.svelte";
   import TodoList from "./TodoList.svelte";
-  import { v4 as uuid } from "uuid";
   import { produce } from "immer";
   import api from "../../utils/api";
 
