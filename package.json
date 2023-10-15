@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "immer": "^10.0.2",
+    "nanoid": "^5.0.2",
     "udid": "^0.1.4",
     "uuid": "^9.0.1"
   }
