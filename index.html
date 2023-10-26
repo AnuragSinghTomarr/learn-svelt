@@ -5,9 +5,49 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Svelte</title>
+    <style>
+      .svgwpr {
+        outline: 1px solid black;
+        display:flex;
+        /* height: 90vh; */
+        flex-direction: column;
+      }
+      .circle-svg {
+        transform: rotate(-90deg);
+        outline: 1px solid grey;
+      }
+      .circle {
+        animation: 5s timer linear;
+        stroke-dasharray: 0;
+        stroke-dashoffset: 380;
+      }
+      @keyframes timer {
+        0% {
+          stroke-dasharray: 380;
+          stroke-dashoffset: 380;
+        }
+        100% {
+          stroke-dashoffset: 0;
+          stroke-dasharray: 380;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <div id="app">
+      <div class="svgwpr">
+        <svg>
+          <g transform="translate(0, 30)">
+            <text>Svg Text</text>
+          </g>
+        </svg>
+      </div>
+      <svg class="circle-svg" width="200" height="200">
+        <g transform="translate(0, 60)">
+          <circle class="circle" cx="60" cy="30" r="50" fill="none" stroke="red" stroke-width="6"></circle>
+        </g>
+      </svg>
+    </div>
+    <!-- <script type="module" src="/src/main.js"></script> -->
   </body>
 </html>
