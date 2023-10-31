@@ -17,7 +17,7 @@
         outline: 1px solid grey;
       }
       .circle {
-        animation: 5s timer linear;
+        /* animation: 5s timer linear infinite; */
         stroke-dasharray: 0;
         stroke-dashoffset: 380;
       }
@@ -30,6 +30,13 @@
           stroke-dashoffset: 0;
           stroke-dasharray: 380;
         }
+      }
+      #mydiv {
+        display: flex;
+        height: 50px;
+        width: 50px;
+        background-color: cadetblue;
+        position: relative;
       }
     </style>
   </head>
@@ -44,10 +51,43 @@
       </div>
       <svg class="circle-svg" width="200" height="200">
         <g transform="translate(0, 60)">
+          <circle cx="60" cy="30" r="50" fill="none" stroke="#EAD3BE" stroke-width="6"></circle>
+        </g>
+        <g transform="translate(0, 60)">
           <circle class="circle" cx="60" cy="30" r="50" fill="none" stroke="red" stroke-width="6"></circle>
         </g>
       </svg>
+      <div id="mydiv" />
     </div>
     <!-- <script type="module" src="/src/main.js"></script> -->
   </body>
+  <script type="text/javascript">
+    var adiv = document.getElementById('mydiv')
+    var starttime
+    
+    function moveit(timestamp, el, dist, duration) {
+      //if browser doesn't support requestAnimationFrame, generate our own timestamp using Date:
+      var timestamp = timestamp || new Date().getTime()
+      console.log('Move it fn timestamp --> ', timestamp);
+      var runtime = timestamp - starttime
+      console.log('Runtime --> ', runtime);
+      var progress = runtime / duration
+      console.log('Progress -->', progress);
+      progress = Math.min(progress, 1)
+      el.style.left = (dist * progress).toFixed(2) + 'px'
+
+      if (runtime < duration){ // if duration not met yet
+        requestAnimationFrame(function(timestamp) { // call requestAnimationFrame again with parameters
+            moveit(timestamp, el, dist, duration)
+        })
+      }
+    }
+    
+    requestAnimationFrame(function(timestamp){
+      starttime = timestamp || new Date().getTime() //if browser doesn't support requestAnimationFrame, generate our own timestamp using Date
+      console.log('Start Time --> ', starttime);
+      console.log('Initial Timestamp --> ', timestamp);
+      moveit(timestamp, adiv, 400, 2000) // 400px over 1 second
+    })
+  </script>
 </html>
